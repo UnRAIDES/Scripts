@@ -6,7 +6,7 @@
    - La forma de poder aportar scripts al repositorio es la siguiente:
 
 1. Lo primero es hacer un fork de este repositorio en la cuenta personal de cada un@.
-2. Una vez tengas el fork en tu cuenta personal, añades una carpeta con el nombre del script que quieres añadir y dentro de esta los archivos del script más un archivo README.md en el cual hagas una pequeña explicación de que hace el script para el resto de usuarios. (Pensad que no todo el mundo sabe interpretar un script pero si puede ser que con la explicación vea que le puede resultar util)
+2. Una vez tengas el fork en tu cuenta personal, añades una carpeta con tu nombre de usuario y dentro de esta los archivos del script más un archivo README.md en el cual hagas una pequeña explicación de que hace el script para el resto de usuarios. (Pensad que no todo el mundo sabe interpretar un script pero si puede ser que con la explicación vea que le puede resultar util)
 3. Una vez tengas todo esto hecho subes los cambios al repositorio personal y desde ese repositorio solicitas un Pull Request al repositorio principal de UnRAIDES.
 4. Una vez esté el Pull Request solicitado uno de los administradores los revisará y aceptará los cambios. Si tienen cualquier problema en el mismo Pull Request se realizarán los comentarios para que se puedan solucionar.
 
