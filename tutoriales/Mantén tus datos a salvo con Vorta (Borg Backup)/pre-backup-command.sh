@@ -1,0 +1,1 @@
+curl -s --data parse_mode=HTML --data chat_id=$ID --data text="<b>Vorta Backup</b>%0A   <i>Estado:</i> Iniciando Backup" "https://api.telegram.org/bot$API/sendMessage" && curl -m 10 --retry 5 https://hc-ping.com/XXXXXXXXXXXXXXXXXXXXXX/start
