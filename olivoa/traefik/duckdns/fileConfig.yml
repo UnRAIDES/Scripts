@@ -1,0 +1,54 @@
+http:
+#  routers:
+    #añadir seguridad al dashboard
+#    dashboard:
+#      entryPoints:
+#        - https
+#      rule: Host(`traefik.subdominio.duckdns.org`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))
+#      service: api@internal
+#      middlewares:
+#        - auth
+    #añadir ruta para aplicacion externa    
+#    drive:
+#      entryPoints:
+#        - https
+#      rule: Host(`drive.subdominio.duckdns.org`)
+#      service: drive
+  ## SERVICES ##
+  #servicio para aplicacion externa
+#  services:
+#    drive:
+#      loadBalancer:
+#        servers:
+#        - url: https://IP:Port/
+  ## MIDDLEWARES ##
+#  middlewares:
+    # Auth
+    #usuarios para autenticación
+#    auth:
+#      basicAuth:
+#        users:
+#          - "usuario:contraseña" #contraseña  con htpasswd 
+
+# Security headers
+    securityHeaders:
+      headers:
+        customResponseHeaders:
+          X-Robots-Tag: "none,noarchive,nosnippet,notranslate,noimageindex"
+          server: ""
+        sslProxyHeaders:
+          X-Forwarded-Proto: https
+        referrerPolicy: "same-origin"
+        hostsProxyHeaders:
+          - "X-Forwarded-Host"
+        customRequestHeaders:
+          X-Forwarded-Proto: "https"
+        customResponseHeaders:
+          X-Forwarded-Proto: "https"
+        contentTypeNosniff: true
+        browserXssFilter: true
+        forceSTSHeader: true
+        stsIncludeSubdomains: true
+        stsSeconds: 63072000
+        stsPreload: true
+
