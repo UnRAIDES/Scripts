@@ -1,0 +1,57 @@
+global:
+  checkNewVersion: true
+  sendAnonymousUsage: true
+
+serversTransport:
+  insecureSkipVerify: true
+
+entryPoints:
+  http:
+    address: :80
+    http:
+      redirections:
+        entryPoint:
+          to: https
+          scheme: https
+  https:
+    address: :443
+    http:
+      tls:
+        certResolver: letsencrypt
+        domains:
+          - main: tudominio.com  #añadir tu dominio
+            sans:
+              - '*.tudominio.com'  #añadir tu dominio
+      middlewares:
+        - securityHeaders@file
+
+providers:
+  providersThrottleDuration: 2s
+
+  file:
+    filename: /etc/traefik/fileConfig.yml
+    watch: true
+  docker:
+    watch: true
+    network: proxy # red del proxyinverso
+    defaultRule: "Host(`{{ index .Labels \"com.docker.compose.service\"}}.tudominio.com`)" #añadir tu dominio
+    swarmModeRefreshSeconds: 15s
+    exposedByDefault: false
+
+api:
+  dashboard: true
+  insecure: false
+
+log:
+  level: INFO
+
+certificatesResolvers:
+  letsencrypt:
+    acme:
+      email: tucorreoelectronico
+      storage: /etc/traefik/acme.json
+      dnsChallenge:
+        provider: cloudflare
+        resolvers:
+          - "1.1.1.1:53"
+          - "1.0.0.1:53"
