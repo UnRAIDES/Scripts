@@ -1,4 +1,4 @@
-Opciones para aumentar la seguridad de SMB en UnRAID:
+H1 Opciones para aumentar la seguridad de SMB en UnRAID:
 Dirigirnos a Settings --> SMB
 
 SMB settings:
