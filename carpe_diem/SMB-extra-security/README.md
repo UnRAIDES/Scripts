@@ -10,7 +10,7 @@
 - Enable NetBIOS: no
 - Enable WSD: no
 
-![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "SMB settings")
+![alt text](https://github.com/Carpe-Diem-Postero/Scripts/blob/main/carpe_diem/SMB-extra-security/img/Screenshot_20220221_200902.png "SMB settings")
 
 
 **SMB Extras:**
@@ -30,4 +30,4 @@ null passwords = No
 raw NTLMv2 auth = no
 ```
 
-![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "SMB extras")
+![alt text](https://github.com/Carpe-Diem-Postero/Scripts/blob/main/carpe_diem/SMB-extra-security/img/Screenshot_20220221_200933.png "SMB extras")
