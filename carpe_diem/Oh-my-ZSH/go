@@ -1,0 +1,6 @@
+# Paste this at the end of the go file that runs at startup, located at: /boot/config/go
+
+# Make sure to enable zsh in nerd pack first
+# Install Oh-My-Zsh
+HOME="/root"
+sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
