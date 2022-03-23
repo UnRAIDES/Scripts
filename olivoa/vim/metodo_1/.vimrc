@@ -11,15 +11,6 @@ set sw=2
 set relativenumber
 set laststatus=2
 set noshowmode
-syntax enable
-set showcmd
-set ruler
-set encoding=utf-8
-set showmatch
-set sw=2
-set relativenumber
-set laststatus=2
-set noshowmode
 "--------------------
 "install plug
 let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
