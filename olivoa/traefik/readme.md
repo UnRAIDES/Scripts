@@ -21,6 +21,7 @@ chmod 600 ./acme.json
 - Key: traefik.http.routers.nombre-contenedor.entryPoints  
 - Value: https
 - Default value: https 
+
 CON LAS DOS VARIABLES PREVIAS LA MAYORIA DE CONTENEDORES SE EXPONEN CORRECTAMENTE, EL NOMBRE DEL SUBDOMINIO SERÁ EL NOMBRE DEL CONTENEDOR.
 ### Seleccionar el nombre del subdominio 
 SI SE DESEA PERSONALIZAR EL NOMBRE DEL SUBDOMINIO A UNO DISTINTO AL GENERADO SEGUN EL NOMBRE DEL CONTENEDOR, SE DEBE ESPECIFICAR LA SIGUIENTE VARIABLE.
@@ -39,7 +40,7 @@ EN CASO DE QUE TRAEFIK NO RECONOZCA LOS PUERTOS ESPECIFICADOS EN LA PLANTILLA SE
 - Key: traefik.http.services.nombre-contenedor.loadbalancer.server.port 
 - Value: puerto personalizado 
 - Default: puerto personalizado 
-==========================
+
 ### Otros
 - En el archivo de configuración se deja comentado la autenticación basica del dashboard de traefik, generacion de usuarios, y muestra de conexión a una app externa al server.
 
