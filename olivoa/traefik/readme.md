@@ -9,9 +9,9 @@ y modificar sus permisos
 ```
 chmod 600 ./acme.json 
 ```
-## Nuevas varialbes de entorno 
+## Nuevas variables de entorno 
 - Agregar nueva variable en el contenedor que se desea exponer, y en config type seleccionar "label"
-### Enable traefik 
+### Activación de  traefik 
 - Name: Enable Traefik 
 - Key: traefik.enable
 - Value: true
@@ -27,7 +27,7 @@ CON LAS DOS VARIABLES PREVIAS LA MAYORIA DE CONTENEDORES SE EXPONEN CORRECTAMENT
 SI SE DESEA PERSONALIZAR EL NOMBRE DEL SUBDOMINIO A UNO DISTINTO AL GENERADO SEGUN EL NOMBRE DEL CONTENEDOR, SE DEBE ESPECIFICAR LA SIGUIENTE VARIABLE.
 - Name: Subdominio 
 - Key: traefik.http.routers.nombre-contenedor.rule 
-- Value: Host(`subdominio.dominio.com`)
+- Value: ```Host(`subdominio.dominio.com`)```
 ### Selección de conexión https
 ALGUNAS CONTENEDORES SE CONECTAN DIRECTAMENTE A HTTPS POR LO QUE SE NECESITA ESPECIFICARLO (NEXTCLOUD DE LINUXSERVER O VAULTWARDEN SON UN EJEMPLO)
 - Name: Esquema https
