@@ -22,7 +22,7 @@ http:
 #        servers:
 #        - url: https://IP:Port/
   ## MIDDLEWARES ##
-#  middlewares:
+  middlewares:
     # Auth
     #usuarios para autenticación
 #    auth:
