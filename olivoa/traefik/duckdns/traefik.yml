@@ -1,6 +1,6 @@
 global:
   checkNewVersion: true
-  sendAnonymousUsage: true
+  sendAnonymousUsage: false
 
 serversTransport:
   insecureSkipVerify: true
@@ -40,7 +40,7 @@ providers:
 
 api:
   dashboard: true
-  insecure: false
+  insecure: true
 
 log:
   level: INFO
