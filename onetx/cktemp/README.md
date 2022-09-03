@@ -1,10 +1,10 @@
 # cktemp: Control de temperatura en Qnap TS x53 con panq
 
-## Prerequisitos e instalaciÛn.
+## Prerequisitos e instalaci√≥n.
 
-- Necesitaras disponer de un bot configurado en Telegram. Si no dispones de un token de telegram y un chatid mira este enlace: https://proyectoa.com/crear-bot-en-telegram-y-generar-token-de-seguridad-para-uso-por-aplicacion-externa/
-- Copia *panq* de este directorio a la carpeta /root
-- Conecta por ssh al servidor y otorga permisos de ejecuciÛn al fichero *panq*
+- Necesitaras disponer de un bot configurado en Telegram. Si no dispones de un token de telegram y un chatid mira este enlace: [https://proyectoa.com/crear-bot-en-telegram-y-generar-token-de-seguridad-para-uso-por-aplicacion-externa/](https://proyectoa.com/crear-bot-en-telegram-y-generar-token-de-seguridad-para-uso-por-aplicacion-externa/) 
+- Copia *panq* y *telegram* desde este directorio a la carpeta /root
+- Conecta por ssh al servidor y otorga permisos de ejecuci√≥n al fichero *panq*
 
 ``` bash
 chmod +x /root/panq
@@ -18,10 +18,10 @@ root@myUnraid:~# panq log
 root@myUnraid:~# panq fan
 757 RPM
 root@myUnraid:~# panq temperature
-45.00 ∞C
+45.00 ¬∫C
 ```
 
-Si los comandos muestran temperatura y velocidad del ventilador correctamente puedes continuar, sino deberas buscar las versiÛn de *panq* que funcione en tu Qnap.
+Si los comandos muestran temperatura y velocidad del ventilador correctamente puedes continuar, sino deberas buscar las versi√≥n de *panq* que funcione en tu Qnap.
 
 ## Preparacion del script
 
@@ -35,35 +35,58 @@ Si los comandos muestran temperatura y velocidad del ventilador correctamente pu
 ```
 
 - Adapta los valores de temperatura y rpm del ventilador a tu gusto **(Opcional)**
+  
+  **ADVERTENCIA**: Las listas TEMP_ARRAY y SPEED_ARRAY establecen la velocidad del ventilador seg√∫n la temperatura en modo AUTO.
 
 ``` bash
-# Only send message if temperature is over 45 ∫
-if [ ${ADDR[2]%.*} -gt 48 ]
-then
-    set_fan "higher than 48" 1500 true
-elif [ ${ADDR[2]%.*} -gt 45 ]
-then
-    set_fan "higher than 45" 950 true
-elif [ ${ADDR[2]%.*} -gt 40 ]
-then
-    set_fan "higher than 40" 800 false
-else
-    set_fan "lower than 40" 500 true
-fi
+    # Max fan speed (in rpm) supported by your system
+    FAN_MAX_SPEED=1901
+    # Min fan speed (in rpm) supported by your system
+    FAN_MIN_SPEED=200
+    # Temperature and fan speed array. Set these lists to the same number of elements.
+    TEMP_ARRAY=(0 30 40 45 48 60 99)
+    SPEED_ARRAY=(200 400 700 1000 1200 1500 1500)
+    # Sends a message if the temperature rises above this value.
+    MIN_TEMP_TO_NOTIFY=48
 
 ```
 
 ## Configuracion del script en UserScripts
 
 - En UnRaid crea un script de usuario con el nombre cktemp y en el propio script pega el contenido del fichero cktemp.sh
-- Configura la ejecuciÛn del script al tiempo que prefieras. Yo lo tengo cada 5 minutos: `*/5 * * * *`
+- Configura la ejecuci√≥n del script al tiempo que prefieras. Yo lo tengo cada 5 minutos: `*/5 * * * *`
 
+## Uso del Bot
+
+### Commandos admitidos
+
+Este bot admite los siguientes comandos:
+ 
+- **/fan *velocidad*** - Establece el ventilador a la velocidad especificada y activa el modo Manual.  p.e. /fan 700
+- **/auto** - Establece el modo autom√°tico. El ventilador adaptara su velocidad seg√∫n la temperatura.
+- **/report** - Recibe un reporte del estado actual.
+- **/help** - Esta misma ayuda.
+
+### Configuraci√≥n del bot
+
+El script leera el ultimo mensaje recibido en el chat y lo procesar√°. 
+El tiempo de respuesta del bot estar√° determinado por el tiempo configurado en el UserScripts
+
+## Changelog
+### Version 0.2
+* Recibir comandos del bot para modificar la velocidad del ventilador. 
 
 # Agradecimientos y menciones:
 
-Gracias a @Captn_Obvious y a @Carpe_Diem_Quam_Minimum_Postero por su ayuda.
+## Referidos y recursos
 
-## Ref
+- *panq* : [Dag-Rui/omv-panq-plugin](https://github.com/Dag-Rui/omv-panq-plugin/blob/main/panq-fan-service/panq)
+- *telegram.sh*: [fabianonline/telegram.sh](https://github.com/fabianonline/telegram.sh/)
 
-- *panq* : https://github.com/Dag-Rui/omv-panq-plugin/blob/main/panq-fan-service/panq
+### Agradecimientos
 
+* Gracias a @Captn_Obvious y a @Carpe_Diem_Quam_Minimum_Postero del canal Telegram Unraid_ES https://t.me/unRAID_ES por su ayuda.
+
+### Contributors 
+
+* Se agradencen sugerencias, incidencias e ideas de mejora.
