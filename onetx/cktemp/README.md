@@ -65,6 +65,7 @@ Este bot admite los siguientes comandos:
 - **/fan *velocidad*** - Establece el ventilador a la velocidad especificada y activa el modo Manual.  p.e. /fan 700
 - **/auto** - Establece el modo automático. El ventilador adaptara su velocidad según la temperatura.
 - **/report** - Recibe un reporte del estado actual.
+- **/fansettings** - Muestra la configuracion de rangos actuales para temperaturas y velocidades
 - **/help** - Esta misma ayuda.
 
 ### Configuración del bot
@@ -73,6 +74,9 @@ El script leera el ultimo mensaje recibido en el chat y lo procesará.
 El tiempo de respuesta del bot estará determinado por el tiempo configurado en el UserScripts
 
 ## Changelog
+### Version 0.3
+* Nuevo comando /fansettings 
+
 ### Version 0.2
 * Recibir comandos del bot para modificar la velocidad del ventilador. 
 

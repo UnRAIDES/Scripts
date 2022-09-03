@@ -33,8 +33,8 @@ FAN_MAX_SPEED=1901
 # Min fan speed (in rpm) supported by your system
 FAN_MIN_SPEED=200
 # Temperature and fan speed array. Set these lists to the same number of elements.
-TEMP_ARRAY=(0 30 40 45 48 60 99)
-SPEED_ARRAY=(200 400 700 1000 1200 1500 1500)
+TEMP_ARRAY=(0 30 40 43 47 50 53 60 99 )
+SPEED_ARRAY=(200 400 500 700 800 900 1100 1500 1500 )
 # Sends a message if the temperature rises above this value.
 MIN_TEMP_TO_NOTIFY=48
 
@@ -44,7 +44,7 @@ LAST_MESSAGE=
 AUTO_MODE=
 ERROR_MSG="ERROR You must specify the fan speed (between $FAN_MIN_SPEED and $FAN_MAX_SPEED) in RPMs. \n  p.e. /fan 1000"
 COMMAND_RECEIVED=false
-VERSION="0.2"
+VERSION="0.3"
 DATA_FILE=temp.sav
 
 
@@ -56,6 +56,7 @@ function help_bot {
     echo "/fan [speed] - Sets the fan to the specified [speed] and activates Manual mode. e.g. /fan 700 "
     echo "/auto - Sets auto mode. The fan will adapt its speed according to the temperature. "
     echo "/report - Receive a report of the current status. "
+    echo "/fansettings - Shows current range settings for temperatures and speeds"
     echo "/help - This same help."
     exit
 }
@@ -72,7 +73,7 @@ send_msg ()
 {   
     message=$@
     echo MSG:$message
-    /root/telegram -t $TELEGRAM_TOKEN -c $TELEGRAM_CHAT "$(echo -e "$message\n")"   
+    /root/telegram -t $TELEGRAM_TOKEN -c $TELEGRAM_CHAT  "$(echo -e "$message\n")"   
 }
 
 #Read the last message from chat
@@ -243,6 +244,16 @@ then
         send_msg "$output_report"
         show_report
         save_data
+        exit
+    fi
+
+    if [ "${COMMAND,,}" = "/fansettings" ]; then
+        arrVar=(" Temperature: __ Fan speed (rpm)")
+        for i in "${!TEMP_ARRAY[@]}"; do    
+            arrVar+=("${TEMP_ARRAY[i]} º       ${SPEED_ARRAY[i]} rpm")
+        done
+        concatenated=$(printf "%s\n" "${arrVar[@]}")
+        send_msg "$concatenated"
         exit
     fi
 
