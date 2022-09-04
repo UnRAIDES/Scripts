@@ -254,6 +254,7 @@ then
         done
         concatenated=$(printf "%s\n" "${arrVar[@]}")
         send_msg "$concatenated"
+        save_data
         exit
     fi
 
