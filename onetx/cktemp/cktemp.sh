@@ -24,7 +24,9 @@
 #Bot token: ref: https://proyectoa.com/crear-bot-en-telegram-y-generar-token-de-seguridad-para-uso-por-aplicacion-externa/
 TELEGRAM_TOKEN="*123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11"
  #Chat ID: 123456789
-TELEGRAM_CHAT="195772466"
+TELEGRAM_CHAT="123456789"
+#Chat Admin UserID: 123456789
+TELEGRAM_ADMIN_ID="123456789"
 
 # Set this values 
 
@@ -36,15 +38,17 @@ FAN_MIN_SPEED=200
 TEMP_ARRAY=(0 30 40 43 47 50 53 60 99 )
 SPEED_ARRAY=(200 400 500 700 800 900 1100 1500 1500 )
 # Sends a message if the temperature rises above this value.
-MIN_TEMP_TO_NOTIFY=48
+MIN_TEMP_TO_NOTIFY=50
 
 
 # Constants and messages. Dont modify it.
 LAST_MESSAGE=
+LAST_MESSAGE_USERID=
 AUTO_MODE=
-ERROR_MSG="ERROR You must specify the fan speed (between $FAN_MIN_SPEED and $FAN_MAX_SPEED) in RPMs. \n  p.e. /fan 1000"
+MSG_ERROR="ERROR You must specify the fan speed (between $FAN_MIN_SPEED and $FAN_MAX_SPEED) in RPMs. \n  p.e. /fan 1000"
+MSG_UNATHORIZED_USER="ALERT! Unauthorized user has sent the following message $LAST_MESSAGE. The message has not been processed."
 COMMAND_RECEIVED=false
-VERSION="0.3"
+VERSION="0.4"
 DATA_FILE=temp.sav
 
 
@@ -204,8 +208,16 @@ fi
 if $COMMAND_RECEIVED 
 then
     IFS=' ' read -ra MSG <<< "$LAST_MESSAGE"
+    LAST_MESSAGE_USERID=${MSG[1]}
     COMMAND=${MSG[3]}
     PARAMETER=${MSG[4]}
+
+    if awk "BEGIN {exit !($LAST_MESSAGE_USERID != $TELEGRAM_ADMIN_ID)}"; then
+        echo "Usuario no autorizado"
+        send_msg $MSG_UNATHORIZED_USER "Msg:$LAST_MESSAGE"
+        save_data
+        exit 1        
+    fi
 
     if [ "${COMMAND,,}" = "/fan" ]; then
         echo "Manual fan command received..."
@@ -220,12 +232,12 @@ then
                 save_data
                 exit
             else
-                send_msg $ERROR_MSG
+                send_msg $MSG_ERROR
                 exit 1
             fi
 
         else
-            send_msg $ERROR_MSG
+            send_msg $MSG_ERROR
             exit 1
         fi
     fi

@@ -32,6 +32,8 @@ Si los comandos muestran temperatura y velocidad del ventilador correctamente pu
 	ID="xxxxxxxxxxxxxxxxxx"
 	#Bot token: ref: https://proyectoa.com/crear-bot-en-telegram-y-generar-token-de-seguridad-para-uso-por-aplicacion-externa/
 	TOKEN="xxxxxxxxxxxx:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+  #Chat Admin UserID: 123456789
+  TELEGRAM_ADMIN_ID="xxxxxxxxxxxxxxxx"  
 ```
 
 - Adapta los valores de temperatura y rpm del ventilador a tu gusto **(Opcional)**
@@ -74,6 +76,9 @@ El script leera el ultimo mensaje recibido en el chat y lo procesará.
 El tiempo de respuesta del bot estará determinado por el tiempo configurado en el UserScripts
 
 ## Changelog
+### Version 0.4
+* El bot solo responde a los comandos enviador por el usuario: TELEGRAM_ADMIN_ID
+ 
 ### Version 0.3
 * Nuevo comando /fansettings 
 
