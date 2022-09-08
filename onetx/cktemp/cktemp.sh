@@ -21,14 +21,14 @@
 # cp telegram /root/telegram
 # chmod +x /root/telegram
 
+# Set this values. Init -->
+
 #Bot token: ref: https://proyectoa.com/crear-bot-en-telegram-y-generar-token-de-seguridad-para-uso-por-aplicacion-externa/
 TELEGRAM_TOKEN="*123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11"
  #Chat ID: 123456789
 TELEGRAM_CHAT="123456789"
 #Chat Admin UserID: 123456789
 TELEGRAM_ADMIN_ID="123456789"
-
-# Set this values 
 
 # Max fan speed (in rpm) supported by your system
 FAN_MAX_SPEED=1901
@@ -40,15 +40,22 @@ SPEED_ARRAY=(200 400 500 700 800 900 1100 1500 1500 )
 # Sends a message if the temperature rises above this value.
 MIN_TEMP_TO_NOTIFY=50
 
+# <-- END. Set this values.
+
 
 # Constants and messages. Dont modify it.
+ICON_OK="✅"
+ICON_KO="❗"
+ICON_ALERT="⛔"
 LAST_MESSAGE=
 LAST_MESSAGE_USERID=
 AUTO_MODE=
 MSG_ERROR="ERROR You must specify the fan speed (between $FAN_MIN_SPEED and $FAN_MAX_SPEED) in RPMs. \n  p.e. /fan 1000"
-MSG_UNATHORIZED_USER="ALERT! Unauthorized user has sent the following message $LAST_MESSAGE. The message has not been processed."
+MSG_UNATHORIZED_USER="$ICON_ALERT ALERT $ICON_ALERT Unauthorized user has sent the following message $LAST_MESSAGE. The message has not been processed."
+
+
 COMMAND_RECEIVED=false
-VERSION="0.4"
+VERSION="0.5"
 DATA_FILE=temp.sav
 
 
@@ -83,8 +90,7 @@ send_msg ()
 #Read the last message from chat
 get_msg () 
 {
-    LAST_MESSAGE=$(/root/telegram -t $TELEGRAM_TOKEN -c $TELEGRAM_CHAT -m)
-    # echo "$LAST_MESSAGE"
+    LAST_MESSAGE=$(/root/telegram -t $TELEGRAM_TOKEN -c $TELEGRAM_CHAT -m)    
 }
 
 # Set fan speed and send telegram message
@@ -148,11 +154,10 @@ load_data ()
 
 save_data ()
 {
-    cat <<< "OLDTEMP=$CURRENTTEMP" > temp.sav
-    cat <<< "SAVED_MESSAGE='$LAST_MESSAGE'" >> temp.sav
-    cat <<< "AUTO_MODE=$AUTO_MODE" >> temp.sav    
+ cat <<< "OLDTEMP=$CURRENTTEMP" > temp.sav
+ cat <<< "SAVED_MESSAGE='$LAST_MESSAGE'" >> temp.sav
+ cat <<< "AUTO_MODE=$AUTO_MODE" >> temp.sav    
 }
-
 
 show_report ()
 {
@@ -160,19 +165,12 @@ show_report ()
         dontChanged=true;    
     fi
 
-    # print separator
-    printf "=%.0s"  $(seq 1 55)
-    # insert a newline
-    printf "\n"
-    echo            FAN : $FAN_SPEED rpm
-    echo CURRTEMPERATURE: $CURRENTTEMP º
-    echo OLD TEMPERATURE: $OLDTEMP º
-    echo           EQUAL: $dontChanged
-    echo       AUTO_MODE: $AUTO_MODE
-    echo    LAST_MESSAGE: $LAST_MESSAGE
-    echo   SAVED_MESSAGE: $SAVED_MESSAGE
-    # print separator
-    printf "=%.0s"  $(seq 1 55)
+    ( [ $AUTO_MODE ] && echo "AUTO_MODE: $ICON_OK On" ) || echo "AUTO_MODE: $ICON_KO Off"
+    echo          Fan Speed : $FAN_SPEED rpm
+    echo Current Temperature: $CURRENTTEMP º
+    echo    Old Temperature : $OLDTEMP º
+    echo        LAST_MESSAGE: $LAST_MESSAGE
+    echo       SAVED_MESSAGE: $SAVED_MESSAGE    
     # insert a newline
     printf "\n"
 }
@@ -185,6 +183,10 @@ refresh_data ()
     CURRENTTEMP=${ADDR[2]%.*}
     FAN_SPEED=${ADDR[1]}
 }
+
+#################
+## MAIN SCRIPT ##
+#################
 
 load_data
 refresh_data
@@ -226,7 +228,7 @@ then
         
             if [ $PARAMETER -gt 199 ] && [ $PARAMETER -lt 1901 ] 
             then
-                send_msg "AUTO mode disabled. $(set_fan $CURRENTTEMP $PARAMETER false)"
+                send_msg "Auto Mode $ICON_KO disabled. $(set_fan $CURRENTTEMP $PARAMETER false)"
                 AUTO_MODE=false                
                 show_report
                 save_data
@@ -245,7 +247,7 @@ then
     if [ "${COMMAND,,}" = "/auto" ]; then
         AUTO_MODE=true
         output_auto="$(set_auto_fan $CURRENTTEMP)"
-        send_msg "AUTO Mode ON. $output_auto"
+        send_msg "Auto Mode: $ICON_OK On. $output_auto"
         show_report
         save_data
         exit

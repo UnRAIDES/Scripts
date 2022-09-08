@@ -76,6 +76,10 @@ El script leera el ultimo mensaje recibido en el chat y lo procesará.
 El tiempo de respuesta del bot estará determinado por el tiempo configurado en el UserScripts
 
 ## Changelog
+
+### Version 0.5
+* Se incluyen iconos en los mensajes.
+
 ### Version 0.4
 * El bot solo responde a los comandos enviador por el usuario: TELEGRAM_ADMIN_ID
  
