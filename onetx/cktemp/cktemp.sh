@@ -177,7 +177,12 @@ show_report ()
         dontChanged=true;    
     fi
     
-    ([$AUTO_MODE] && echo "AUTO_MODE: $ICON_OK On" ) || echo "AUTO_MODE: $ICON_KO Off"
+    if [ "$AUTO_MODE" = true ]; then
+        echo "AUTO_MODE: $ICON_OK On"
+    else
+        echo "AUTO_MODE: $ICON_KO Off"
+    fi
+
     echo          Fan Speed : $FAN_SPEED rpm
     echo Current Temperature: $CURRENTTEMP º
     echo    Old Temperature : $OLDTEMP º
