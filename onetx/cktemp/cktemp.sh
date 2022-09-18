@@ -43,6 +43,7 @@ MIN_TEMP_TO_NOTIFY=50
 # <-- END. Set this values.
 
 
+
 # Constants and messages. Dont modify it.
 ICON_OK="✅"
 ICON_KO="❗"
@@ -55,7 +56,7 @@ MSG_UNATHORIZED_USER="$ICON_ALERT ALERT $ICON_ALERT Unauthorized user has sent t
 
 
 COMMAND_RECEIVED=false
-VERSION="0.5"
+VERSION="0.6"
 DATA_FILE=temp.sav
 
 
@@ -67,6 +68,7 @@ function help_bot {
     echo "/fan [speed] - Sets the fan to the specified [speed] and activates Manual mode. e.g. /fan 700 "
     echo "/auto - Sets auto mode. The fan will adapt its speed according to the temperature. "
     echo "/report - Receive a report of the current status. "
+    echo "/unauthorized  - Show all messages received by unauthorized users."
     echo "/fansettings - Shows current range settings for temperatures and speeds"
     echo "/help - This same help."
     exit
@@ -152,6 +154,16 @@ load_data ()
     fi
 }
 
+show_unauthorized_log ()
+{
+    echo "$(cat unauthorized.sav)"
+}
+
+save_unauthorized_log ()
+{
+cat <<< "SAVED_MESSAGE='$LAST_MESSAGE'\n" >> unauthorized.sav
+}
+
 save_data ()
 {
  cat <<< "OLDTEMP=$CURRENTTEMP" > temp.sav
@@ -164,8 +176,8 @@ show_report ()
     if awk "BEGIN {exit !($OLDTEMP == $CURRENTTEMP)}"; then
         dontChanged=true;    
     fi
-
-    ( [ $AUTO_MODE ] && echo "AUTO_MODE: $ICON_OK On" ) || echo "AUTO_MODE: $ICON_KO Off"
+    
+    ([$AUTO_MODE] && echo "AUTO_MODE: $ICON_OK On" ) || echo "AUTO_MODE: $ICON_KO Off"
     echo          Fan Speed : $FAN_SPEED rpm
     echo Current Temperature: $CURRENTTEMP º
     echo    Old Temperature : $OLDTEMP º
@@ -217,6 +229,7 @@ then
     if awk "BEGIN {exit !($LAST_MESSAGE_USERID != $TELEGRAM_ADMIN_ID)}"; then
         echo "Usuario no autorizado"
         send_msg $MSG_UNATHORIZED_USER "Msg:$LAST_MESSAGE"
+        save_unauthorized_log
         save_data
         exit 1        
     fi
@@ -257,6 +270,14 @@ then
         output_report="$(show_report)"
         send_msg "$output_report"
         show_report
+        save_data
+        exit
+    fi
+
+    if [ "${COMMAND,,}" = "/unauthorized" ]; then        
+        output_report="$(show_unauthorized_log)"        
+        send_msg "$output_report"
+        show_unauthorized_log
         save_data
         exit
     fi

@@ -68,6 +68,7 @@ Este bot admite los siguientes comandos:
 - **/auto** - Establece el modo automático. El ventilador adaptara su velocidad según la temperatura.
 - **/report** - Recibe un reporte del estado actual.
 - **/fansettings** - Muestra la configuracion de rangos actuales para temperaturas y velocidades
+- **/unauthorized**  - Muestra todos los mensajes no autorizados recibidos por el bot.
 - **/help** - Esta misma ayuda.
 
 ### Configuración del bot
@@ -76,6 +77,10 @@ El script leera el ultimo mensaje recibido en el chat y lo procesará.
 El tiempo de respuesta del bot estará determinado por el tiempo configurado en el UserScripts
 
 ## Changelog
+### Version 0.6
+* Log para mensajes no autorizados
+* Fix: Icono se ve incorrectamente en el report
+* Nuevo comando /unauthorized 
 
 ### Version 0.5
 * Se incluyen iconos en los mensajes.
