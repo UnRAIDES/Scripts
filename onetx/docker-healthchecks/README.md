@@ -4,7 +4,7 @@ Con este script serás notificado si un contenedor *docker* se encuentra detenid
 
 ## Prerequisitos e instalación.
 
-- Necesitaras una cuenta en [https://healthchecks.io/] y tener configurado un Check. Si no sabes como hacerlo, en el canal de @Unraid_es de Youtube hicieron un fantastico video explicandolo, enlazo al minuto exacto [https://www.youtube.com/watch?v=uu5WZetPtnQ&t=2580s]
+- Necesitaras una cuenta en [https://healthchecks.io/] y tener configurado un Check. Si no sabes como hacerlo, en el canal de @Unraid_es de Youtube hicieron un fantástico video explicándolo, enlazo al minuto exacto [https://www.youtube.com/watch?v=uu5WZetPtnQ&t=2580s]
 
 ## Preparacion del script
 
