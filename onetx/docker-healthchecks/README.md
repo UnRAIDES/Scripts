@@ -1,5 +1,6 @@
-# docker-healthchecks : Monitorizacion de contenedores con healthchecks.io
+# **docker-healthchecks** : Monitorizacion de contenedores con healthchecks.io
 
+Con este script serás notificado si un contenedor *docker* se encuentra detenido.
 
 ## Prerequisitos e instalación.
 
@@ -34,12 +35,12 @@ docker-healthchecks vorta d1716e04-e79e-4a79-a969-169ca402d650
 
 ## Referidos y recursos
 
-- *panq* : [Dag-Rui/omv-panq-plugin](https://github.com/Dag-Rui/omv-panq-plugin/blob/main/panq-fan-service/panq)
-- *telegram.sh*: [fabianonline/telegram.sh](https://github.com/fabianonline/telegram.sh/)
+- [Healthchecks.io Documentation](https://healthchecks.io/docs/)
+- [UnRAIDES Youtube](https://www.youtube.com/c/UnRAIDES/)
 
 ### Agradecimientos
 
-* Gracias a @Carpe_Diem_Quam_Minimum_Postero del canal Telegram Unraid_ES https://t.me/unRAID_ES por descubrirme el servicio [https://healthchecks.io/] y enseñarme a usarlo en su video de youtube
+* Gracias a @Carpe_Diem_Quam_Minimum_Postero del canal [Telegram Unraid_ES](https://t.me/unRAID_ES) por descubrirme el servicio [https://healthchecks.io/] y enseñarme a usarlo en su video de youtube
 
 ### Contributors 
 
