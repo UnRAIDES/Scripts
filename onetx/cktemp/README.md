@@ -3,14 +3,9 @@
 ## Prerequisitos e instalación.
 
 - Necesitaras disponer de un bot configurado en Telegram. Si no dispones de un token de telegram y un chatid mira este enlace: [https://proyectoa.com/crear-bot-en-telegram-y-generar-token-de-seguridad-para-uso-por-aplicacion-externa/](https://proyectoa.com/crear-bot-en-telegram-y-generar-token-de-seguridad-para-uso-por-aplicacion-externa/) 
-- Copia *panq* y *telegram* desde este directorio a la carpeta /root
-- Conecta por ssh al servidor y otorga permisos de ejecución al fichero *panq*
+- El script hace uso de  *panq* y *telegram* que deben estar en la carpeta del script. Si no los encuentra los descargara automáticamente.
 
-``` bash
-chmod +x /root/panq
-```
-
-- Ejecuta los comandos siguientes para comprobar que *panq* es compatible con tu Qnap:
+- Para comprobar que *panq* es compatible con tu Qnap, puedes conectarte por **ssh** y ejecutar los siguiente comandos:
 
 ``` bash
 root@myUnraid:~# panq log
@@ -77,6 +72,12 @@ El script leera el ultimo mensaje recibido en el chat y lo procesará.
 El tiempo de respuesta del bot estará determinado por el tiempo configurado en el UserScripts
 
 ## Changelog
+
+### Version 0.7
+* La libreria auxiliar ´telegram´ y **panq** ahora se utiliza en el directorio de scripts.
+* Si no se encuentra **telegram** o **panq** se descargan automáticamente del repositorio.
+* Correcciones menores.
+
 ### Version 0.6
 * Log para mensajes no autorizados
 * Fix: Icono se ve incorrectamente en el report

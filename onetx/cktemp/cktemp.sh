@@ -29,7 +29,6 @@ TELEGRAM_TOKEN="*123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11"
 TELEGRAM_CHAT="123456789"
 #Chat Admin UserID: 123456789
 TELEGRAM_ADMIN_ID="123456789"
-
 # Max fan speed (in rpm) supported by your system
 FAN_MAX_SPEED=1901
 # Min fan speed (in rpm) supported by your system
@@ -39,7 +38,6 @@ TEMP_ARRAY=(0 30 40 43 47 50 53 60 99 )
 SPEED_ARRAY=(200 400 500 700 800 900 1100 1500 1500 )
 # Sends a message if the temperature rises above this value.
 MIN_TEMP_TO_NOTIFY=50
-
 # <-- END. Set this values.
 
 
@@ -54,9 +52,11 @@ AUTO_MODE=
 MSG_ERROR="ERROR You must specify the fan speed (between $FAN_MIN_SPEED and $FAN_MAX_SPEED) in RPMs. \n  p.e. /fan 1000"
 MSG_UNATHORIZED_USER="$ICON_ALERT ALERT $ICON_ALERT Unauthorized user has sent the following message $LAST_MESSAGE. The message has not been processed."
 
+SCRIPTNAME=$(basename $(dirname $(realpath "$0")))
+AUXPATH="/boot/config/plugins/user.scripts/scripts/$SCRIPTNAME"
 
 COMMAND_RECEIVED=false
-VERSION="0.6"
+VERSION="0.7"
 DATA_FILE=temp.sav
 
 
@@ -79,20 +79,32 @@ function version {
 	echo "by Onetx"
 }
 
+function init_resources {
+    if [ ! -f $AUXPATH/telegram ]; then
+        echo "telegram script file not found. Downloading it...."
+        wget --no-check-certificate --content-disposition https://raw.githubusercontent.com/0neTX/UnRAIDES_Scripts/main/onetx/cktemp/telegram
+    fi
+
+    if [ ! -f $AUXPATH/panq ]; then
+        echo "telegram script file not found. Downloading it...."
+        wget --no-check-certificate --content-disposition https://raw.githubusercontent.com/0neTX/UnRAIDES_Scripts/main/onetx/cktemp/panq
+    fi
+}
+
 # Send message to telegram bot
 # params:
 #       $1: Message
 send_msg () 
 {   
     message=$@
-    echo MSG:$message
-    /root/telegram -t $TELEGRAM_TOKEN -c $TELEGRAM_CHAT  "$(echo -e "$message\n")"   
+    echo MSG:$message    
+    sh $AUXPATH/telegram -t $TELEGRAM_TOKEN -c $TELEGRAM_CHAT  "$(echo -e "$message\n")"   
 }
 
 #Read the last message from chat
 get_msg () 
-{
-    LAST_MESSAGE=$(/root/telegram -t $TELEGRAM_TOKEN -c $TELEGRAM_CHAT -m)    
+{    
+    LAST_MESSAGE=$(sh $AUXPATH/telegram -t $TELEGRAM_TOKEN -c $TELEGRAM_CHAT -m)    
 }
 
 # Set fan speed and send telegram message
@@ -107,14 +119,14 @@ set_fan ()
     then
         send_msg "Current Temperature $CURRENTTEMP higher than is $1. Setting up fan speed to $2."
     fi
-    /root/panq fan $2
+    $AUXPATH/panq fan $2
 }
 
 set_auto_fan ()
 {
     new_speed=1500
     if ! $AUTO_MODE; then
-        echo "Modo manual activado."
+        echo "Manual mode activated."
         show_report
         exit
     fi
@@ -145,7 +157,7 @@ set_auto_fan ()
 
 load_data ()
 {
-    echo Loading old variables...
+    # Loading old variables...
     if [ -f "$DATA_FILE" ]; then
         source $DATA_FILE    
     else 
@@ -194,8 +206,7 @@ show_report ()
 
 refresh_data ()
 {
-    echo Loading current temperature...
-    temperature=$(/root/panq log)    
+    temperature=$($AUXPATH/panq log)    
     IFS=',' read -ra ADDR <<< "$temperature"
     CURRENTTEMP=${ADDR[2]%.*}
     FAN_SPEED=${ADDR[1]}
@@ -205,6 +216,7 @@ refresh_data ()
 ## MAIN SCRIPT ##
 #################
 
+init_resources
 load_data
 refresh_data
 
@@ -213,12 +225,12 @@ get_msg
 
 if [[ -z $LAST_MESSAGE ]]
 then
-    echo "No hay mensajes en el bot"
+    echo "No new messages in the bot"
     COMMAND_RECEIVED=false
 fi
 
 if [ "${LAST_MESSAGE,,}" = "${SAVED_MESSAGE,,}" ]; then
-    echo "Sin comandos nuevos."
+    echo "No new commands"
     COMMAND_RECEIVED=false
 else 
     COMMAND_RECEIVED=true
@@ -232,7 +244,7 @@ then
     PARAMETER=${MSG[4]}
 
     if awk "BEGIN {exit !($LAST_MESSAGE_USERID != $TELEGRAM_ADMIN_ID)}"; then
-        echo "Usuario no autorizado"
+        echo "Unauthorized user detected"
         send_msg $MSG_UNATHORIZED_USER "Msg:$LAST_MESSAGE"
         save_unauthorized_log
         save_data
