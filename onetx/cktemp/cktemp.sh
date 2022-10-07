@@ -29,6 +29,8 @@ TELEGRAM_TOKEN="*123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11"
 TELEGRAM_CHAT="123456789"
 #Chat Admin UserID: 123456789
 TELEGRAM_ADMIN_ID="123456789"
+
+
 # Max fan speed (in rpm) supported by your system
 FAN_MAX_SPEED=1901
 # Min fan speed (in rpm) supported by your system
@@ -85,9 +87,12 @@ function init_resources {
         wget --no-check-certificate --content-disposition https://raw.githubusercontent.com/0neTX/UnRAIDES_Scripts/main/onetx/cktemp/telegram
     fi
 
-    if [ ! -f $AUXPATH/panq ]; then
+    if [ ! -f /root/panq ]; then
         echo "telegram script file not found. Downloading it...."
-        wget --no-check-certificate --content-disposition https://raw.githubusercontent.com/0neTX/UnRAIDES_Scripts/main/onetx/cktemp/panq
+        wget --no-check-certificate --content-disposition https://raw.githubusercontent.com/0neTX/UnRAIDES_Scripts/main/onetx/cktemp/panq --directory-prefix=/root
+        chmod +x /root/panq
+        /root/panq help
+        /root/panq log
     fi
 }
 
@@ -119,7 +124,7 @@ set_fan ()
     then
         send_msg "Current Temperature $CURRENTTEMP higher than is $1. Setting up fan speed to $2."
     fi
-    $AUXPATH/panq fan $2
+    /root/panq fan $2
 }
 
 set_auto_fan ()
@@ -206,7 +211,7 @@ show_report ()
 
 refresh_data ()
 {
-    temperature=$($AUXPATH/panq log)    
+    temperature=$(/root/panq log)    
     IFS=',' read -ra ADDR <<< "$temperature"
     CURRENTTEMP=${ADDR[2]%.*}
     FAN_SPEED=${ADDR[1]}
