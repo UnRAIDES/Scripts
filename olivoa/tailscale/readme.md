@@ -3,7 +3,7 @@
 _adjuntamos el script necesario para habilitar ip-forwarding para el  correcto funcionamiento de caracterisicas de tailscale como exit-node o sub-net_
 
 ## Comenzando 🚀
-_Tenemosque tener instalado el plugin user-scripts_
+_Tenemos que tener instalado el plugin user-scripts_
 
 - Generamos un nuevo script y le asignamos un nombre y una descripción 
 - Editamos y copiamos el contenido del archivo ip-forwarding.sh 
