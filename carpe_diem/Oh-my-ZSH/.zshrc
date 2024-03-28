@@ -23,7 +23,7 @@ source $ZSH/oh-my-zsh.sh
 
 alias l='ls -lFh'     #size,show type,human readable
 alias la='ls -lAFh'   #long list,show almost all,show type,human readable
-# alias ll="exa --long --all --icons --group" # ll alias for use if exa is installed. Remove initial # in this line to activate
+# alias ll="eza --long --all --icons --group" # ll alias for use if eza is installed. Remove initial # in this line to activate
 
 HISTSIZE=10000
 SAVEHIST=10000
