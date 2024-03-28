@@ -10,7 +10,7 @@ Los pasos son los siguientes:
 1. Instalar en UnRAID el plugin Nerd Tools
 2. Entrar al plugin Nerd Tools y dentro, buscar e instalar ZSH
 3. Crear un directorio "extra" dentro de /boot/config, y dentro del mismo, crear un archivo llamado ".zshrc". La ruta completa sería /boot/config/extra/.zshrc
-4. Copiar el contenido de [.zshrc](./.zshrc) dentro del archivo que acabamos de crear. Modificar el tema o los plugins que vienen por defecto según tus gustos particulares. Si estás usando [exa](../Bat-Dust-Exa) se ha incluido un alias (ll). Para activarlo, basta con borrar el # que hay delante del último alias de este archivo (alias ll="exa --long --all --icons --group")
+4. Copiar el contenido de [.zshrc](./.zshrc) dentro del archivo que acabamos de crear. Modificar el tema o los plugins que vienen por defecto según tus gustos particulares. Si estás usando [eza](../Bat-Dust-Eza) se ha incluido un alias (ll). Para activarlo, basta con borrar el # que hay delante del último alias de este archivo (alias ll="eza --long --all --icons --group")
 5. Editar el archivo /boot/config/go y añadir al final del mismo el contenido del archivo [go](./go) (no borrar el contenido previo del archivo, solo añadir al final)
 6. Instalar en UnRAID el plugin User Scripts
 7. Crear un nuevo script, copiar en su interior el contenido de [userscript.sh](./userscript.sh) y programarlo para que se lance al iniciar el array
